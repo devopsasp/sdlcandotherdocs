@@ -1,0 +1,40 @@
+ Case study 
+
+   A nosql database has to be created in mongodb to capture details about customer and product
+ customer information to be captured 
+
+ firstname
+ lastname
+ customeraddress
+ mobileno
+ emailid
+ productpurchased:["coffee","tea","vegetables"]
+ amountpaid
+ amountdue
+
+
+
+ product information to be captured
+ productname 
+ price 
+ stock_available
+ location
+ discountavailable
+ description
+
+
+
+#insert atleast 10 records in each collection 
+#sort the customer collection as per amount due 
+#sort the product collection as per stock_available 
+
+  update customer records ,set amountdue to 0 where amountdue is less then 50
+  update product records ,set stock_available to 0 where stock_available is less then 10
+  update product records ,set discountavailable to 100 where price greater thn 200
+
+
+
+
+
+
+ 

@@ -1,0 +1,108 @@
+##########################################
+criteria in mongodb find function 
+
+  operators 
+comparison operators
+   $lt
+   $lte
+   $gt
+   $gte
+   $in
+   $ne
+   $nin
+
+
+ db.<collection>.find({<attributename:{criteria}}
+
+
+eg:-
+
+  employee salary greater then 15000
+
+   db.employee.find({salary:{$gt:15000}}
+
+###################################################################################
+
+and or not nor
+
+db.products.find({$and:[{price:{$gt:30}},{productname:"Ice Tea"}]});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ db.products.find({$or:[{price:{$gt:30}},{productname:"Ice Tea"}]});
+ db.products.find({$nor:[{price:{$gt:30}},{productname:"Ice Tea"}]});
+
+
+ db.products.find({price:{$not:{$gt:30}}});
+
+
+
+
+
+Case Study 
+
+ Create a database Employee  and a collection employee_records with below attributes 
+
+ employeeid , employeename,department ,designation ,basic_salary,dearness_allowance,hra,pf,gross_salary,net_salary
+
+insert below given details 
+
+employeeid   employeename department  designation  basic_salary dearness_allowance hra pf gross_salary net_salary
+
+1            Erric Bana      Sales     Manager      12000          3000            2    3   25000        23000
+2            William Share   Admin     Asst Manager 15000          2000            3    2   32000        30000
+3            Mary Sully      Admin     Manager      13000          2000            3    2   35000        32000
+4            Bruce Wayne     Tech      CTS          25000          2000            4    3   45000        40000
+5            Klark James     Training  Trainer      20000          1000            2    2   42000        38000
+
+#Insert above records in collection 
+#Execute queries to get below details 
+  
+All employees belonging to Admin
+All employees with gross salary greater then 30000
+All employees with gross salary greater then 30000 and department is Admin
+All employess with net salary greater then 35000 or gross salary greater then 30000
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

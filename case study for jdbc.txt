@@ -1,0 +1,22 @@
+   Case Study  <--------->   15 mins
+Look at the below records 
+
+   CallQuality Table 
+   =================================================================================
+   callid|| phoneNo ||  callfeedback ||  callrating || customername || calldroprate||
+  =================================== ==================================================
+    1       9934223221   getting frequent   2             Erric Jones      35%
+                          call drops 
+ 
+    2       8873433421    call drops         3             Mathew Mandis   32%
+                           happenning  
+
+
+ Using JDBC API 
+
+  # create the above table  and insert above mentioned records 
+
+ # Retrieve records using ResultSet
+ # Update the second record with callid 2 ,chante calldroprate to 25%
+
+

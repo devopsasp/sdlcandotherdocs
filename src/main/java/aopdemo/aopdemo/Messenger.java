@@ -4,9 +4,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Messenger {
-	public void printMessage(String username)
+	public void printMessage(String message,User user)
 	{
-		 System.out.println("Hello "+username);
+		 System.out.println("Hello User");
 	}
 
 }

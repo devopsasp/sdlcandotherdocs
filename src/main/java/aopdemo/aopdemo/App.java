@@ -15,7 +15,14 @@ public class App
       context.scan("aopdemo.aopdemo");
       context.refresh();
    Messenger messenger=context.getBean(Messenger.class) ;
-   messenger.printMessage("Peter");
-    
+   messenger.printMessage("Hello User",new User("peter","peter123"));
+   EmailMessenger emailer=context.getBean(EmailMessenger.class);
+    try {
+    emailer.sendMail("Hello User",new User("peter","peter123"));
+    }
+    catch(Exception e)
+    { 
+    	System.out.println(e);
+    }
     }
 }

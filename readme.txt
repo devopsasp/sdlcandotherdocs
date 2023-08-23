@@ -11,3 +11,11 @@ client
 #ControllerAdvice is a speciallized form of spring stereotype annotation
 #It allows handling of exceptions across whole application in one global handling 
 component
+
+#Sending location in response
+
+#UriComponentsBuilder
+   class helps in building UriComponent Instances
+   These instances can be sent in response for an operation like add or 
+   getting uri for different resources
+   

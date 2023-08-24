@@ -2,11 +2,14 @@ package com.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.Column;
 
 @Entity
 @Table(name="ItemTable")
-public class Item {
+public class Item  {
 	
 	@Id
 	private int itemId;
@@ -15,11 +18,6 @@ public class Item {
 	private String itemName;
 	
 	private float price;
-	
-	public Item()
-	{
-		
-	}
 
 	public int getItemId() {
 		return itemId;
@@ -57,5 +55,9 @@ public class Item {
 		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", price=" + price + "]";
 	}
 	
+		public Item()
+		{
+			
+		}
 
 }

@@ -44,6 +44,15 @@ public class ItemService {
 		return itemRepository.findById(id).get();  
 	  } 
 	  
+	  public List<Item> findByPrice(float price) 
+	  { 
+		  return itemRepository.findItemByPrice(price);
+	  }
+	  
+	  public Item findByNane(String name)
+	  {
+		  return itemRepository.findItemByItemName(name);
+	  }
 	  
 	  
 	  

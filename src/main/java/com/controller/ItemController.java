@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +41,13 @@ public ResponseEntity<?> addItem(@RequestBody Item item)
 public ResponseEntity<?> getAllItems()
 {
 	List<Item> itemList=itemService.getAllItems();
-	
-	
-	return new ResponseEntity<List<Item>>(itemList,HttpStatus.OK);
+	CollectionModel<Item> model=CollectionModel.of(itemList);
+
+	model.forEach((i)->{
+		Link link=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllItems()).slash(i.getItemId()).withSelfRel();
+	    	model.add(link);
+	});
+	return new ResponseEntity<>(model,HttpStatus.OK);
 }
 
 
@@ -64,10 +70,14 @@ public ResponseEntity<?> deleteItem(@RequestBody Item item)
 
 
 @GetMapping("/item/{id}")
-public ResponseEntity<?> getItemById(@PathVariable int id)
+public  ResponseEntity<?> getItemById(@PathVariable int id)
 {
+	
 	Item item=itemService.getItemById(id);
-			return new ResponseEntity<>(item,HttpStatus.FOUND);
+	Link link=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllItems()).slash(item.getItemId()).withSelfRel();
+	EntityModel<Item> model=EntityModel.of(item);
+	model.add(link);
+			return new ResponseEntity(model,HttpStatus.FOUND);
 }
 
 @GetMapping("/itemprice/{price}")

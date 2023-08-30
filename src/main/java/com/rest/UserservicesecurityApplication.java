@@ -15,14 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SpringBootApplication
-@EnableWebSecurity
+//@EnableWebSecurity
 public class UserservicesecurityApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserservicesecurityApplication.class, args);
 	}
 
-	
+/*	
 	@Bean 
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
 	{ 
@@ -33,9 +33,7 @@ public class UserservicesecurityApplication {
 				.anyRequest()
 				.authenticated()
 				.and()
-			    .httpBasic()
-			    .and()
-			    .sessionManagement().disable();
+			    .httpBasic();
 				
 		return http.build();
 	}
@@ -44,10 +42,12 @@ public class UserservicesecurityApplication {
 	@Bean 
 	public UserDetailsService getUserDetails()
 	{
-		UserDetails user1=User.builder().username("user").password("{noop}password123").roles("USER").build();
-		UserDetails user2=User.builder().username("admin").password("{noop}iamadmin").roles("ADMIN").build();
+	UserDetails user1=User.builder().username("user").password("{noop}password123").roles("USER").build();
+	UserDetails user2=User.builder().username("admin").password("{noop}iamadmin").roles("ADMIN").build();
 		return new InMemoryUserDetailsManager(user1,user2);
-	}
+		
+	return	new MyUserDetailService();
+	}*/
 	
 	
 }

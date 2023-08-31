@@ -3,20 +3,27 @@ package com.rest;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 public class MyUserDetails implements UserDetails{
 
 	 User user;
 	 public MyUserDetails(User user)
 	 {
+		 System.out.println("user "+user);
 		 this.user=user;
 	 }
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+	  ArrayList<GrantedAuthority> list=new ArrayList();
+	//  list.add(new SimpleGrantedAuthority(user.getRoles()));
+		return list;
 	}
 
 	@Override
@@ -28,25 +35,25 @@ public class MyUserDetails implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return user.getUserName();
+		return user.getUsername();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

@@ -1,0 +1,32 @@
+image: maven:3-openjdk-8
+
+
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - echo "Compiling the code..."
+    - echo "Compile complete."
+    - 'mvn compile'
+
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  services:
+  - docker:dind  
+  - mysql:8
+  variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+   MYSQL_DATABASE: test
+   MYSQL_ROOT_PASSWORD: mysql
+
+  script:
+    - apt-get update && apt-get install -y git curl libmcrypt-dev default-mysql-client
+    - mysql --version
+    - mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+    - 'mvn test'
+    - 'mvn package'

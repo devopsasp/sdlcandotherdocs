@@ -1,0 +1,45 @@
+
+image: maven:3-openjdk-8
+
+variables:
+  APP_NAME: app
+  SPRING_BOOT_REPO: myrepo
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
+
+build-job:   # This job runs in the test stage.
+  stage: build    # It only starts when the job in the build stage completes successfully.
+  services:
+  - docker:dind  
+  - mysql:8
+  variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+   MYSQL_DATABASE: test
+   MYSQL_ROOT_PASSWORD: mysql
+
+  script:
+    - apt-get update && apt-get install -y git curl libmcrypt-dev default-mysql-client
+    - mysql --version
+    - mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+    - 'mvn package'
+  artifacts:
+    paths:
+      - target/*.jar
+ 
+
+
+deploy-job:      # This job runs in the deploy stage.
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  environment: production
+  image: docker:latest
+  services:
+  - docker:dind  
+  script:
+  - docker login -u saileshasp83 -p Iamasp123hello
+  - docker build -t saileshasp83/sample:springapp .
+  - docker push saileshasp83/sample:springapp
+
+  

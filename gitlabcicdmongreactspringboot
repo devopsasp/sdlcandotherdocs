@@ -1,0 +1,54 @@
+stages:
+  - build_react
+  - build_spring
+  - deploy
+
+variables:
+  # Define environment variables here, if needed
+  REACT_APP_API_URL: "http://your-api-gateway-url:8080" # Replace with the actual API Gateway URL
+  SPRING_PROFILES_ACTIVE: "production"
+  SPRING_DATA_MONGODB_URI: "mongodb://mongodb:27017/mydb"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+
+services:
+  - name: mongo:4.4
+    alias: mongodb
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all"]
+
+  - name: your-docker-image-registry/gitlab-runner-helper:latest
+    alias: docker-runner-helper
+
+build_react:
+  stage: build_react
+  script:
+    - echo "Building React application..."
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+  only:
+    - master # Change this to the branch you want to trigger the build from
+
+build_spring:
+  stage: build_spring
+  script:
+    - echo "Building Spring Boot application..."
+    - ./mvnw clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+  only:
+    - master # Change this to the branch you want to trigger the build from
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying applications..."
+    - docker-compose -f docker-compose.yml up -d
+  only:
+    - master # Change this to the branch you want to trigger the deployment from
+  environment:
+    name: production
+    url: http://your-react-app-url # Replace with the actual URL of your React app
+  when: manual

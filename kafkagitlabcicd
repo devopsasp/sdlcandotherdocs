@@ -1,0 +1,44 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  SPRING_PROFILES_ACTIVE: "production"
+  MYSQL_DATABASE: "mydb"
+  MYSQL_ROOT_PASSWORD: "root"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+
+services:
+  - name: mysql:5.7
+    alias: mysql
+    variables:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "mydb"
+
+  - name: confluentinc/cp-kafka:6.2.0
+    alias: kafka
+    variables:
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+
+build:
+  stage: build
+  script:
+    - echo "Building Spring Boot application..."
+    - ./mvnw clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying Spring Boot application..."
+    - docker-compose -f docker-compose.yml up -d
+  only:
+    - master  # Change this to the branch you want to trigger the deployment from
+  environment:
+    name: production
+    url: http://localhost:8080  # Update with the actual URL of your deployed application
+  when: manual

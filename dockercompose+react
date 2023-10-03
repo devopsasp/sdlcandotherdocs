@@ -1,1 +1,95 @@
-d
+version: '3'
+services:
+  # React App
+  react-app:
+    image: your-react-app-image:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - mynet
+
+  # Spring Boot Microservice 1
+  microservice1:
+    image: your-microservice1-image:latest
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/mydb
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - kafka
+    networks:
+      - mynet
+
+  # Spring Boot Microservice 2
+  microservice2:
+    image: your-microservice2-image:latest
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/mydb
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - kafka
+    networks:
+      - mynet
+
+  # Spring Boot API Gateway
+  api-gateway:
+    image: your-api-gateway-image:latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: microservice1_route
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://microservice1:8081
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATE: Path=/microservice1/**
+      SPRING_CLOUD_GATEWAY_ROUTES_1_ID: microservice2_route
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://microservice2:8082
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATE: Path=/microservice2/**
+    depends_on:
+      - microservice1
+      - microservice2
+    networks:
+      - mynet
+
+  # MongoDB
+  mongodb:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - mynet
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:6.2.0
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - mynet
+
+  # Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+    networks:
+      - mynet
+
+volumes:
+  mongodb-data:
+
+networks:
+  mynet:

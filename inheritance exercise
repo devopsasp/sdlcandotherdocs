@@ -1,0 +1,46 @@
+   Exercise for Inheritance 
+
+ 1.View the below class 
+ 
+   public class Animal 
+  {
+     public String animalName;
+      public String animalType; 
+ } 
+
+ #create two class Carnivourous and Herbivorous by inheriting Animal class 
+ #create functions in both the class to display animal Name and animal Type 
+
+2.Case Study 
+
+   Jennifer has been given a task to create a base class Vehicle with attributes vehicleNumber ,vehicleName
+   She has to also create sub type of this class 
+   The heirarchy is like below 
+ 
+                                         Vehicle 
+                                             |
+                                  -----------------------------
+                                 |                             |
+                           TwoWheeler                         FourWheeler
+                               |                                   |
+                        -----------------                ------------------------    
+                       |                 |               |          |              |
+                      Bike             Scooter         Car         Truck          Lorry
+
+
+   #Create a function a vehicle class to display vehicle details like vehiclename and vehicleNumber
+   #The subclasses should have a function to accept parameters like for vehiclename and vehiclenumber 
+    #Create object of each subclass and call in main method of a class named VehicleApp
+
+   
+
+
+
+
+
+
+
+
+
+
+ 

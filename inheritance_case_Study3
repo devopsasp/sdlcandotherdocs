@@ -1,0 +1,32 @@
+Exercise 3 
+
+View the below heirarchy
+
+                                          ----------------
+                                            Person
+                                          -----------------
+                                            personName
+                                            emailId
+                                           ----------------
+                                               |
+                -----------------------------------------------------------------------
+               |                                       |                               |
+            --------------------                ----------------                     ----------------
+                Employee                          Customer                              Supplier
+            ------------------                  ------------------                   --------------
+             setEmployeeDetails(name,email)     setCustomerDetails(name,email)        setSupplierDetails(name,email)
+             printEmployeeDetails()             printCustomerDetails()                printSupplierDetails()
+                |                                        |
+          ----------------------                   --------------------                             
+         |                   |                    |                    |
+        --------           ---------           ------------          ----------- 
+        Manager             Engineer           Offline_Customer      Online_Customer
+       --------            -----------        -----------------      -----------
+       department           branch               no_of_visits         total_order_placed
+       setDepartment(dept)  setBranch(loc)       setNoOfVisits(nov)    setTotalOrderPlaced(tordr)
+       printDepartment()    printBranch()        printNoOfVisits()     printTotalOrderPlaced
+
+Implement above heirarchy of classes with their attributes and methods in java
+                            
+        
+                                          

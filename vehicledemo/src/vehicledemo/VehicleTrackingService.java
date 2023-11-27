@@ -55,6 +55,11 @@ public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, l
 		if(v.vehicleNumber==vehicleNumber)
 		{ 
 		
+			if(epochTime==v.fineSummary.lastPolledInfo)
+			{
+			
+				return false;
+			}
 			check=distanceTraveledInKm*60*60/(epochTime-v.fineSummary.lastPolledInfo);
 			System.out.println(distanceTraveledInKm);
 			System.out.println(v.fineSummary.lastPolledInfo);
@@ -84,13 +89,23 @@ public List<Long> fineHistory(int vehicleNumber, int K) {
 	// TODO Auto-generated method stub
 	ArrayList<Long> vhcl=new ArrayList<>();
 	System.out.println(fineList);
+	if(fineList.size()!=0)
+	{
 	for(int i=0;i<K;i++)
 	{
-		if(fineList.get(i).vehicleNumber==vehicleNumber)
+		try {
+			if(fineList.get(i).vehicleNumber==vehicleNumber)
+			{
+			   	  vhcl.add(fineList.get(i).fineSummary.lastPolledInfo);
+			}	
+		}
+		catch(Exception e)
 		{
-		   	  vhcl.add(fineList.get(i).fineSummary.lastPolledInfo);
+			
 		}
 		
+		
+	}
 	}
 	System.out.println(fineList);
 	

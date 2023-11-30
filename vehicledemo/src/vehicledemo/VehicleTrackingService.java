@@ -75,7 +75,7 @@ public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, l
 	  v.fineSummary=new FineSummary();
 	  v.fineSummary.lastPolledInfo=epochTime;
 	  fineList.add(v);
-	  for (Vehicle v1 : fineList) {
+	  for (Vehicle v1 :vehicleList) {
           if (v1.vehicleNumber == vehicleNumber) {
               v1.fineSummary.numberOfTimesFineImposed++;
               break;

@@ -1,6 +1,7 @@
 package vehicledemo;
 
 import java.util.*;
+
 public class VehicleTrackingService  implements IVehicleTrackingService{
 
 List<Vehicle> vehicleList;
@@ -31,11 +32,11 @@ public Vehicle getVehicleInfo(int vehicleNumber) {
 	Vehicle v=null;
 	for(Vehicle vehicle:vehicleList)
 	{
-		System.out.println("number "+vehicle.vehicleNumber);
+
 				
 		if(vehicle.vehicleNumber==vehicleNumber)
 		{
-			System.out.println(vehicle.vehicleNumber);
+			
 			v=vehicle;
 			
 		}
@@ -45,9 +46,7 @@ public Vehicle getVehicleInfo(int vehicleNumber) {
 
 @Override
 public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, long epochTime) {
-	// TODO Auto-generated method stub
 	
-
 	long check=0;
 	for(Vehicle v : vehicleList)
 	{
@@ -60,13 +59,13 @@ public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, l
 			
 				return false;
 			}
-			check=distanceTraveledInKm*60*60/(epochTime-v.fineSummary.lastPolledInfo);
-			System.out.println(distanceTraveledInKm);
-			System.out.println(v.fineSummary.lastPolledInfo);
-			System.out.println(check);
+			
+			check=(distanceTraveledInKm*60*60)/Math.abs((epochTime-v.fineSummary.lastPolledInfo));
+			
 		
 		}
 		v.fineSummary.lastPolledInfo=epochTime;
+		
 	}
 	 
   if(check>M)
@@ -76,6 +75,12 @@ public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, l
 	  v.fineSummary=new FineSummary();
 	  v.fineSummary.lastPolledInfo=epochTime;
 	  fineList.add(v);
+	  for (Vehicle v1 : fineList) {
+          if (v1.vehicleNumber == vehicleNumber) {
+              v1.fineSummary.numberOfTimesFineImposed++;
+              break;
+          }
+      }
 	  return true;
   }
   else
@@ -88,7 +93,6 @@ public boolean polledVehicleInfo(int vehicleNumber, long distanceTraveledInKm, l
 public List<Long> fineHistory(int vehicleNumber, int K) {
 	// TODO Auto-generated method stub
 	ArrayList<Long> vhcl=new ArrayList<>();
-	System.out.println(fineList);
 	if(fineList.size()!=0)
 	{
 	for(int i=0;i<K;i++)
@@ -107,10 +111,10 @@ public List<Long> fineHistory(int vehicleNumber, int K) {
 		
 	}
 	}
-	System.out.println(fineList);
+	
 	
 	vhcl.sort((a,b)->a>b?-1:1);
-	System.out.println(vhcl);
+
 	return vhcl;
 }
  

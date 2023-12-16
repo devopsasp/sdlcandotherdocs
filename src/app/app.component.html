@@ -1,0 +1,17 @@
+<div *ngIf="isNotAuthenticated; else showhome">
+<form  (ngSubmit)="gotohome()">
+       <label for="username">
+          Enter User Name
+       </label>
+         <input type="text" class="form-control"/>
+         <label for="password">
+           Enter password
+         </label>
+         <input type="password" class="form-control"/>
+         <input type="submit" class="btn btn-primary"/>
+</form>
+</div>
+<!--<router-outlet></router-outlet>-->
+<ng-template #showhome>
+  <app-home></app-home>
+</ng-template>

@@ -1,0 +1,66 @@
+Classroom Assignment
+Creating a Static Web Page with HTML & CSS Styling
+
+
+ Objective:
+Create a static web page that showcases a fictional company's profile. Implement styling using CSS to enhance the visual appeal of the page.
+
+ Assignment Details:
+
+1. Project Overview:
+Design a static webpage for a fictional company called "Tech Solutions". The page should include:
+- A header with the company name and navigation links.
+- A main section with a brief company introduction and services offered.
+- A section for testimonials.
+- A contact form.
+- A footer with contact information.
+
+2. HTML Structure:
+
+File: index.html
+
+- Header:
+  - Company name in a prominent <h1> tag.
+  - Navigation links: Home, About, Services, Contact (use <a> tags).
+
+- Main Section:
+  - A company introduction with a heading and a paragraph.
+  - A section titled "Services" with a list of services offered (use <ul> and <li> tags).
+
+- Testimonials Section:
+  - A heading and a few testimonials from clients (use <blockquote> for testimonials).
+
+- Contact Form:
+  - Include fields for Name, Email, and Message.
+  - Add a submit button.
+
+- Footer:
+  - Contact information: Address, phone number, and email (use <p> tags).
+
+3. CSS Styling:
+
+File: styles.css
+
+- Basic Styling:
+  - Set up a consistent font and background color for the page.
+  - Style the header and footer to have a distinct look.
+  - Apply styling to navigation links (e.g., remove underline, add hover effects).
+
+- Advanced Styling:
+  - Pseudo-classes: Apply styles to links and form fields using :hover and :focus.
+  - Pseudo-elements: Use ::before and ::after to add decorative elements, such as icons before headings.
+  - Transitions: Add smooth transitions to button hover effects.
+  - Positioning: Use relative and absolute positioning to layout elements if needed.
+  - Box Shadows and Rounded Corners: Apply these styles to form fields and containers.
+  - Text Effects: Add text-shadow to headings and highlight text with color or font-weight.
+
+4. Deliverables:
+
+- HTML File: index.html - A complete HTML document with the specified structure.
+- CSS File: styles.css - A CSS file that styles the HTML elements according to the requirements.
+- Media Files (Optional): If using images or icons, ensure they are included or linked appropriately.
+
+5. Submission:
+
+Submit the index.html and styles.css files. Ensure that the page renders correctly in a web browser and all styles are applied as specified.
+

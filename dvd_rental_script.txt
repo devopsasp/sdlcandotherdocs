@@ -1,0 +1,250 @@
+
+CREATE TABLE IF NOT EXISTS public.actor
+(
+    actor_id integer NOT NULL,
+    first_name character varying COLLATE pg_catalog."default",
+    last_name character varying COLLATE pg_catalog."default",
+    last_update date,
+    CONSTRAINT actor_pkey PRIMARY KEY (actor_id)
+)
+
+CREATE TABLE IF NOT EXISTS public.address
+(
+    address_id integer NOT NULL,
+    address character varying COLLATE pg_catalog."default",
+    address2 character varying COLLATE pg_catalog."default",
+    district character varying COLLATE pg_catalog."default",
+    city_id integer,
+    postal_code integer,
+    phone character(11) COLLATE pg_catalog."default",
+    last_update date,
+    CONSTRAINT address_pkey PRIMARY KEY (address_id),
+    CONSTRAINT address_city_id_fkey FOREIGN KEY (city_id)
+        REFERENCES public.city (city_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.category
+(
+    category_id integer NOT NULL,
+    name character varying COLLATE pg_catalog."default",
+    last_update date,
+    CONSTRAINT category_pkey PRIMARY KEY (category_id)
+)
+
+
+CREATE TABLE IF NOT EXISTS public.city
+(
+    city_id integer NOT NULL,
+    city character varying COLLATE pg_catalog."default",
+    country_id integer,
+    last_update date,
+    CONSTRAINT city_pkey PRIMARY KEY (city_id),
+    CONSTRAINT city_country_id_fkey FOREIGN KEY (country_id)
+        REFERENCES public.country (country_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.country
+(
+    country_id integer NOT NULL,
+    country character varying COLLATE pg_catalog."default",
+    last_update date,
+    CONSTRAINT country_pkey PRIMARY KEY (country_id)
+)
+
+
+CREATE TABLE IF NOT EXISTS public.customer
+(
+    customer_id integer NOT NULL,
+    store_id integer,
+    first_name character varying COLLATE pg_catalog."default",
+    last_name character varying COLLATE pg_catalog."default",
+    email character varying COLLATE pg_catalog."default",
+    address_id integer,
+    activebool boolean,
+    create_date date,
+    last_update date,
+    active boolean,
+    CONSTRAINT customer_pkey PRIMARY KEY (customer_id),
+    CONSTRAINT customer_address_id_fkey FOREIGN KEY (address_id)
+        REFERENCES public.address (address_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT customer_store_id_fkey FOREIGN KEY (store_id)
+        REFERENCES public.store (store_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.film
+(
+    film_id integer NOT NULL,
+    title character varying COLLATE pg_catalog."default",
+    description character varying COLLATE pg_catalog."default",
+    release_year smallint,
+    language_id integer,
+    rental_duration integer,
+    rental_rate numeric(5,2),
+    length integer,
+    replacement_cost money,
+    rating integer,
+    last_update date,
+    special_features character varying COLLATE pg_catalog."default",
+    fulltext character varying COLLATE pg_catalog."default",
+    CONSTRAINT film_pkey PRIMARY KEY (film_id),
+    CONSTRAINT fk_foreignkey1 FOREIGN KEY (language_id)
+        REFERENCES public.language (language_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.film_actor
+(
+    actor_id integer NOT NULL,
+    film_id integer NOT NULL,
+    last_update date,
+    CONSTRAINT film_actor_pkey PRIMARY KEY (actor_id, film_id),
+    CONSTRAINT film_actor_actor_id_fkey FOREIGN KEY (actor_id)
+        REFERENCES public.actor (actor_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT film_actor_film_id_fkey FOREIGN KEY (film_id)
+        REFERENCES public.film (film_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE IF NOT EXISTS public.film_category
+(
+    film_id integer NOT NULL,
+    category_id integer NOT NULL,
+    last_update date,
+    CONSTRAINT film_category_pkey PRIMARY KEY (film_id, category_id),
+    CONSTRAINT film_category_category_id_fkey FOREIGN KEY (category_id)
+        REFERENCES public.category (category_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT film_category_film_id_fkey FOREIGN KEY (film_id)
+        REFERENCES public.film (film_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE IF NOT EXISTS public.inventory
+(
+    inventory_id integer NOT NULL,
+    film_id integer,
+    store_id integer,
+    last_updated date,
+    CONSTRAINT inventory_pkey PRIMARY KEY (inventory_id),
+    CONSTRAINT inventory_film_id_fkey FOREIGN KEY (film_id)
+        REFERENCES public.film (film_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE IF NOT EXISTS public.language
+(
+    language_id integer NOT NULL,
+    name character varying COLLATE pg_catalog."default",
+    last_update date,
+    CONSTRAINT language_pkey PRIMARY KEY (language_id)
+)
+
+CREATE TABLE IF NOT EXISTS public.payment
+(
+    payment_id integer NOT NULL,
+    customer_id integer,
+    staff_id integer,
+    rental_id integer,
+    amount money,
+    payment_date date,
+    CONSTRAINT payment_pkey PRIMARY KEY (payment_id),
+    CONSTRAINT payment_customer_id_fkey FOREIGN KEY (customer_id)
+        REFERENCES public.customer (customer_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT payment_rental_id_fkey FOREIGN KEY (rental_id)
+        REFERENCES public.rental (rental_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT payment_staff_id_fkey FOREIGN KEY (staff_id)
+        REFERENCES public.staff (staff_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.rental
+(
+    rental_id integer NOT NULL,
+    rental_date date,
+    inventory_id integer,
+    customer_id integer,
+    return_date date,
+    staff_id integer,
+    last_update date,
+    CONSTRAINT rental_pkey PRIMARY KEY (rental_id),
+    CONSTRAINT rental_customer_id_fkey FOREIGN KEY (customer_id)
+        REFERENCES public.customer (customer_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT rental_inventory_id_fkey FOREIGN KEY (inventory_id)
+        REFERENCES public.inventory (inventory_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT rental_staff_id_fkey FOREIGN KEY (staff_id)
+        REFERENCES public.staff (staff_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE IF NOT EXISTS public.staff
+(
+    staff_id integer NOT NULL,
+    first_name character varying COLLATE pg_catalog."default",
+    last_name character varying COLLATE pg_catalog."default",
+    address_id integer,
+    email character varying COLLATE pg_catalog."default",
+    store_id integer,
+    active boolean,
+    username character varying COLLATE pg_catalog."default",
+    password character varying COLLATE pg_catalog."default",
+    last_update date,
+    picture bytea,
+    CONSTRAINT staff_pkey PRIMARY KEY (staff_id),
+    CONSTRAINT staff_address_id_fkey FOREIGN KEY (address_id)
+        REFERENCES public.address (address_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE IF NOT EXISTS public.store
+(
+    store_id integer NOT NULL,
+    manager_staff_id integer,
+    address_id integer,
+    last_update date,
+    CONSTRAINT store_pkey PRIMARY KEY (store_id),
+    CONSTRAINT store_address_id_fkey FOREIGN KEY (address_id)
+        REFERENCES public.address (address_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT store_manager_staff_id_fkey FOREIGN KEY (manager_staff_id)
+        REFERENCES public.staff (staff_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT store_store_id_fkey FOREIGN KEY (store_id)
+        REFERENCES public.store (store_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
